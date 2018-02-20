@@ -389,28 +389,39 @@ Resources:
           Action:
           - 'sts:AssumeRole'
       Path: '/'
-      Policies:
-      - PolicyName: logs
-        PolicyDocument:
-          Version: '2012-10-17'
-          Statement:
-          - Effect: Allow
-            Action:
-            - 'logs:CreateLogGroup'
-            - 'logs:CreateLogStream'
-            - 'logs:PutLogEvents'
-            - 'logs:DescribeLogStreams'
-            Resource:
-            - 'arn:aws:logs:*:*:*'
-      - PolicyName: sts
-        PolicyDocument:
-          Version: '2012-10-17'
-          Statement:
-          - Effect: Allow
-            Action:
-            - 'sts:AssumeRole'
-            Resource:
-            - '*'
+      ManagedPolicyArns:
+        - 'arn:aws:iam::aws:policy/AdministratorAccess'
+      # Policies:
+      # - PolicyName: logs
+      #   PolicyDocument:
+      #     Version: '2012-10-17'
+      #     Statement:
+      #     - Effect: Allow
+      #       Action:
+      #       - 'logs:CreateLogGroup'
+      #       - 'logs:CreateLogStream'
+      #       - 'logs:PutLogEvents'
+      #       - 'logs:DescribeLogStreams'
+      #       Resource:
+      #       - 'arn:aws:logs:*:*:*'
+      # - PolicyName: sts
+      #   PolicyDocument:
+      #     Version: '2012-10-17'
+      #     Statement:
+      #     - Effect: Allow
+      #       Action:
+      #       - 'sts:AssumeRole'
+      #       Resource:
+      #       - '*'
+      # - PolicyName: cf
+      #   PolicyDocument:
+      #     Version: '2012-10-17'
+      #     Statement:
+      #     - Effect: Allow
+      #       Action:
+      #       - 'cloudformation:*'
+      #       Resource:
+      #       - '*'
   MasterIAMPolicySSHAccess:
     Type: 'AWS::IAM::Policy'
     Condition: HasIAMUserSSHAccess

@@ -1,0 +1,34 @@
+aws> cloudformation create-stack --region us-east-1 \
+--stack-name vpc-2azs \
+--template-body file://vpc-2azs.yaml \
+--parameters ParameterKey=ClassB,ParameterValue=0
+
+aws> cloudformation create-stack --region us-east-1 \
+--stack-name vpc-nat-gateway \
+--template-body file://vpc-nat-gateway.yaml \
+--disable-rollback \
+--parameters ParameterKey=ParentVPCStack,ParameterValue=vpc-2azs \
+ParameterKey=SubnetZone,ParameterValue=A
+
+aws> cloudformation create-stack --region us-east-1 \
+--stack-name jenkins2-ha \
+--template-body file://jenkins2-ha.yaml \
+--capabilities CAPABILITY_IAM \
+--disable-rollback \
+--parameters ParameterKey=ParentVPCStack,ParameterValue=vpc-2azs \
+ParameterKey=JenkinsVersion,ParameterValue=2.89.4 \
+ParameterKey=KeyName,ParameterValue=ec2-admin \
+ParameterKey=IAMUserSSHAccess,ParameterValue=false \
+ParameterKey=SubDomainName,ParameterValue=jenkins \
+ParameterKey=MasterSubnetsReach,ParameterValue=Private \
+ParameterKey=MasterELBScheme,ParameterValue=internet-facing \
+ParameterKey=MasterInstanceType,ParameterValue=t2.micro \
+ParameterKey=MasterAdminPassword,ParameterValue=Quartz01 \
+ParameterKey=MasterLogsRetentionInDays,ParameterValue=14 \
+ParameterKey=MasterVolumeSize,ParameterValue=8
+
+aws> cloudformation create-stack --region us-east-1 \
+--stack-name operations-alert \
+--template-body file://alert.yaml \
+--disable-rollback \
+--parameters ParameterKey=Email,ParameterValue=cloud.tech.courses@gmail.com
