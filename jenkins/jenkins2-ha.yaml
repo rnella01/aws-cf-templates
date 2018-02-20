@@ -389,8 +389,6 @@ Resources:
           Action:
           - 'sts:AssumeRole'
       Path: '/'
-      # ManagedPolicyArns:
-      #   - 'arn:aws:iam::aws:policy/AdministratorAccess'
       Policies:
       - PolicyName: logs
         PolicyDocument:
@@ -428,7 +426,13 @@ Resources:
           Statement:
           - Effect: Allow
             Action:
-            - 'iam:*'
+            - 'iam:Get*'
+            - 'iam:List*'
+            - 'iam:Attach*'
+            - 'iam:Update*'
+            - 'iam:Delete*'
+            - 'iam:Create*'
+            - 'iam:Put*'
             Resource:
             - '*'
   MasterIAMPolicySSHAccess:
